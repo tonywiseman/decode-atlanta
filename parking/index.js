@@ -17,7 +17,6 @@
         if(req.query && req.query.terminal ){
           terminal = req.query.terminal
         }
-
         var terminalPriority = {
           'North Daily': 3,
           'North Economy': 2,
@@ -32,9 +31,10 @@
           'International Park-Ride': 1,
         }
 
+        context.log('Before promise')
         request(options).then(($) => {
             var parking = [];
-
+            context.log('Promise returned');
             $('div#bodySection_TabContainer1_TabPanel1_wucParkingLotStatus_UplParking')
             .children()
             .toArray()
