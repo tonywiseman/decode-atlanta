@@ -26,9 +26,8 @@
       })
       .then((results) => {
         console.log('Directions routes', JSON.stringify(results.json.routes[0].legs[0].duration, null, 2));
-        context.done(null, {
-          body: results.json.routes[0].legs[0].duration
-        });
+        context.res = { body: results.json.routes[0].legs[0].duration };
+        context.done();
       });
   }
 })();
