@@ -129,6 +129,8 @@
                     break;
                 default:
                     context.error("Operation not supported: ", operation);
+                    db.close();
+                    context.close();
             }
 
         });
