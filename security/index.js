@@ -1,31 +1,45 @@
 (function () {
-
     'use strict';
 
-    var request = require("request");
+    var request = require('request-promise');
+    var cheerio = require('cheerio'); // Basically jQuery for node.js
 
-    var options = {
-        method: 'POST',
-        url: 'http://apps.atl.com/Passenger/FlightInfo/Default.aspx',
-        headers: {
-            'postman-token': 'b4041a10-5b2c-03b1-7b7b-85e01c19d22e',
-            'cache-control': 'no-cache',
-            'content-type': 'application/x-www-form-urlencoded'
-        },
-        form: {
-            'ctl00$ScriptManager': 'ctl00$bodySection$wucSecurityWaitTimes$upnWaitTime|ctl00$bodySection$wucSecurityWaitTimes$lnkWaittimes',
-            '__EVENTTARGET': 'ctl00$bodySection$wucSecurityWaitTimes$lnkWaittimes',
-            '__ASYNCPOST': 'true'
-        }
+    module.exports = function (context) {
+        var options = {
+            method: 'POST',
+            uri: 'http://apps.atl.com/Passenger/FlightInfo/Default.aspx',
+            transform: function (body) {
+                return cheerio.load(body);
+            }
+        };
+
+        request(options).then(function (data) {
+            var security = [];
+
+            data('div#bodySection_wucSecurityWaitTimes_upnWaitTime')
+            .children()
+            .toArray()
+            .forEach(function (value, index) {
+                if (index > 3) {
+                    return;
+                }
+
+                var checkpoint = data(value).text(),
+                    location = checkpoint.split(" Checkpoint : ")[0],
+                    status = checkpoint.split(" Checkpoint : ")[1];
+
+                security.push({location: location, status: status});
+            });
+
+            console.log(JSON.stringify(security, null, 2));
+            context.log(JSON.stringify(security, null, 2));
+            context.res = { body: JSON.stringify(security, null, 2) };
+            context.done();
+        }).catch(function (error) {
+            console.log(error);
+            context.log('error: ', error);
+            context.done();
+        });
     };
-
-    request(options, function (error, response, body) {
-        if (error) {
-            throw new Error(error);
-        }
-
-        console.log(response.statusCode);
-        console.log(body);
-    });
 
 }());

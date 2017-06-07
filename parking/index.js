@@ -1,9 +1,8 @@
 (function () {
-
     'use strict';
 
     var request = require('request-promise');
-    var cheerio = require('cheerio'); // Basically jQuery for node.js
+    var cheerio = require('cheerio');
 
     module.exports = function (context) {
         var options = {
@@ -15,29 +14,32 @@
         };
 
         request(options).then((data) => {
-            var parking = {};
+            var parking = [];
 
             data('div#bodySection_TabContainer1_TabPanel1_wucParkingLotStatus_UplParking')
             .children()
             .toArray()
-            .forEach((val, index) => {
+            .forEach((value, index) => {
                 if (index === 0) {
                     return;
                 }
 
-                var location = data(val).children('.col-xs-9').text();
-                var status = data(val).children('.col-xs-3').text();
+                var location = data(value).children('.col-xs-9').text(),
+                    status = data(value).children('.col-xs-3').text();
 
                 if (location !== "" && status !== "") {
-                    parking[location] = status;
+                    parking.push({ location: location, status: status });
                 }
             });
 
             console.log(JSON.stringify(parking, null, 2));
-            context.res(Promise.resolve(parking));
+            context.log(JSON.stringify(parking, null, 2));
+            context.res = { body: JSON.stringify(parking, null, 2) };
             context.done();
-        }).catch(error => {
-            console.log('error: ', error);
+        }).catch((error) => {
+            console.log(error);
+            context.log('error: ', error);
+            context.done();
         });
     };
 
