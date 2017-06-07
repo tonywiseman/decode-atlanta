@@ -35,10 +35,12 @@
             context.log(JSON.stringify(security, null, 2));
             context.res = { body: JSON.stringify(security, null, 2) };
             context.done();
+            Promise.resolve(security);
         }).catch(function (error) {
             console.log(error);
             context.log('error: ', error);
             context.done();
+            Promise.reject(error);
         });
     };
 
