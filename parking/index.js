@@ -52,11 +52,11 @@
                     if (terminal) {
                         if (terminal === 'international' && _.startsWith(location, 'International')) {
                             parking.push({ location: location, status: status, priority:  terminalPriority[location]});
-                        }
-                    } else {
-                        if (!_.startsWith(location, 'International')) {
+                        } else if (terminal === 'domestic' && !_.startsWith(location, 'International')) {
                             parking.push({ location: location, status: status, priority:  terminalPriority[location]});
                         }
+                    } else {
+                        parking.push({ location: location, status: status, priority:  terminalPriority[location]});
                     }
                 }
             });
