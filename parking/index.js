@@ -33,11 +33,9 @@
             });
 
             context.res = { body: JSON.stringify(parking, null, 2) };
-            Promise.resolve(parking);
             context.done();
         }).catch((error) => {
             context.log('error: ', error);
-            Promise.reject(error);
             context.done();
         });
     };

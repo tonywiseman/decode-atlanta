@@ -32,11 +32,9 @@
             });
 
             context.res = { body: JSON.stringify(security, null, 2) };
-            Promise.resolve(security);
             context.done();
         }).catch(function (error) {
             context.log('error: ', error);
-            Promise.reject(error);
             context.done();
         });
     };
