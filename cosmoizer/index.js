@@ -78,9 +78,9 @@
     }
 
     module.exports = function(context, req) {
-        var body = (req && req.body) || testObject,
-            id = req && req.id,
-            operation = req && req.operation;
+        var body = (req && req.query && req.body) || testObject,
+            id = req && req.query && req.query.id,
+            operation = req && req.query && req.query.operation;
 
         MongoClient.connect(url, function(error, db) {
             if (error) {
@@ -89,10 +89,10 @@
 
             switch(operation) {
                 case "add":
-                    addTrip(db, testObject).then(function (id) {
+                    addTrip(db, body).then(function (id) {
                         console.log({id: id});
-                        context.log(data);
-                        context.res = { body: data };
+                        context.log(id);
+                        context.res = { body: id };
                     }).catch(function (error) {
                         console.log("Error (add): ", error);
                         context.error(error);
