@@ -78,7 +78,7 @@
     }
 
     module.exports = function(context, req) {
-        var body = (req && req.query && req.body) || testObject,
+        var body = (req && req.body) || testObject,
             id = req && req.query && req.query.id,
             operation = req && req.query && req.query.operation;
 
@@ -95,7 +95,7 @@
                         context.res = { body: id };
                     }).catch(function (error) {
                         console.log("Error (add): ", error);
-                        context.error(error);
+                        context.log(error);
                     }).finally(function () {
                         db.close();
                         context.close();
@@ -108,7 +108,7 @@
                         context.res = { body: data };
                     }).catch(function (error) {
                         console.log("Error (find): ", error);
-                        context.error(error);
+                        context.log(error);
                     }).finally(function () {
                         db.close();
                         context.close();
@@ -121,14 +121,14 @@
                         context.res = { body: data };
                     }).catch(function (error) {
                         console.log("Error (update): ", error);
-                        context.error(error);
+                        context.log(error);
                     }).finally(function () {
                         db.close();
                         context.close();
                     });
                     break;
                 default:
-                    context.error("Operation not supported: ", operation);
+                    context.log("Operation not supported: ", operation);
                     db.close();
                     context.close();
             }
