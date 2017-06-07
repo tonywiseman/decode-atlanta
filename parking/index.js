@@ -5,7 +5,7 @@
     var cheerio = require('cheerio');
     var _ = require('lodash');
 
-    module.exports.handler = function (context, req) {
+    module.exports = function (context, req) {
         var options = {
             method: 'POST',
             uri: 'http://apps.atl.com/Passenger/Parking/Default.aspx',
