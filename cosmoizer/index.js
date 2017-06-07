@@ -2,7 +2,7 @@
     'use strict';
 
     var MongoClient = require('mongodb').MongoClient;
-    var url = process.env.DocumentDB_CosmosDB;
+    var url = process.env.DOCDBCONNSTR_CosmosDB;
 
     var testObject = {
         "origin": "The Garage, Atlanta, GA",
