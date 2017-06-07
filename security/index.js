@@ -4,7 +4,7 @@
     var request = require('request-promise');
     var cheerio = require('cheerio'); // Basically jQuery for node.js
 
-    exports.handler = function (context, req) {
+    module.exports = function (context, req) {
         var options = {
             method: 'POST',
             uri: 'http://apps.atl.com/Passenger/FlightInfo/Default.aspx',
