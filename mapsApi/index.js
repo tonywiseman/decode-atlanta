@@ -17,15 +17,15 @@
         geocode({ address: req.query.address })
       ])
       .spread((airport_geocode, origin_geocode) => {
-        console.log('Origin', JSON.stringify(origin_geocode.json.results[0].geometry.location, null, 2));
-        console.log('Destination', JSON.stringify(airport_geocode.json.results[0].geometry.location, null, 2));
+        context.log('Origin', JSON.stringify(origin_geocode.json.results[0].geometry.location, null, 2));
+        context.log('Destination', JSON.stringify(airport_geocode.json.results[0].geometry.location, null, 2));
         return directions({
           origin: origin_geocode.json.results[0].geometry.location,
           destination: airport_geocode.json.results[0].geometry.location
         });
       })
       .then((results) => {
-        console.log('Directions routes', JSON.stringify(results.json.routes[0].legs[0].duration, null, 2));
+        context.log('Directions routes', JSON.stringify(results.json.routes[0], null, 2));
         context.res = { body: results.json.routes[0].legs[0].duration };
         context.done();
       });
