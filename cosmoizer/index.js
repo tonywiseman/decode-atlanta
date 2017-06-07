@@ -40,8 +40,8 @@
             db.collection('trips').insertOne(object, function(error, result) {
                 if (error) {
                     reject(error);
+                    return;
                 }
-
                 resolve(result.ops[0]._id);
             });
         });
@@ -52,8 +52,8 @@
             db.collection('trips').findOne({_id: id}, function(error, data) {
                 if (error) {
                     reject(error);
+                    return;
                 }
-
                 resolve(data);
             });
         });
@@ -70,10 +70,11 @@
                 function(error, data) {
                     if (error) {
                         reject(error);
+                        return;
                     }
-
                     resolve(id);
-            });
+                }
+            );
         });
     }
 
