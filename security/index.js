@@ -79,6 +79,7 @@
                 }
             }
 
+            context.log(selection);
             context.res = { body: JSON.stringify(selection, null, 2) };
             context.done();
         }).catch(function (error) {
