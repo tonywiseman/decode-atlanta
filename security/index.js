@@ -79,8 +79,8 @@
                 }
             }
 
-            context.log(selection);
-            context.res = { body: JSON.stringify(selection, null, 2) };
+            context.log(JSON.stringify(selection, null, 2));
+            context.res = { body: selection };
             context.done();
         }).catch(function (error) {
             context.log('error: ', error);
