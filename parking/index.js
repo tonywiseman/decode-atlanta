@@ -32,16 +32,13 @@
                 }
             });
 
-            console.log(JSON.stringify(parking, null, 2));
-            context.log(JSON.stringify(parking, null, 2));
             context.res = { body: JSON.stringify(parking, null, 2) };
-            context.done();
             Promise.resolve(parking);
-        }).catch((error) => {
-            console.log(error);
-            context.log('error: ', error);
             context.done();
+        }).catch((error) => {
+            context.log('error: ', error);
             Promise.reject(error);
+            context.done();
         });
     };
 

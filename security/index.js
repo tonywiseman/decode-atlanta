@@ -31,16 +31,13 @@
                 security.push({location: location, status: status});
             });
 
-            console.log(JSON.stringify(security, null, 2));
-            context.log(JSON.stringify(security, null, 2));
             context.res = { body: JSON.stringify(security, null, 2) };
-            context.done();
             Promise.resolve(security);
-        }).catch(function (error) {
-            console.log(error);
-            context.log('error: ', error);
             context.done();
+        }).catch(function (error) {
+            context.log('error: ', error);
             Promise.reject(error);
+            context.done();
         });
     };
 
