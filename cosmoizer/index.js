@@ -91,14 +91,14 @@
                 case "add":
                     addTrip(db, body).then(function (id) {
                         console.log({id: id});
-                        context.log(id);
+                        context.log({id: id});
                         context.res = { body: id };
                     }).catch(function (error) {
                         console.log("Error (add): ", error);
-                        context.log(error);
+                        context.log("Error (add): ", error);
                     }).finally(function () {
                         db.close();
-                        context.close();
+                        context.done();
                     });
                     break;
                 case "find":
@@ -108,29 +108,29 @@
                         context.res = { body: data };
                     }).catch(function (error) {
                         console.log("Error (find): ", error);
-                        context.log(error);
+                        context.log("Error (find): ", error);
                     }).finally(function () {
                         db.close();
-                        context.close();
+                        context.done();
                     });
                     break;
                 case "update":
                     updateTrip(db, id, updateObject).then(function (data) {
                         console.log({id: data});
-                        context.log(data);
+                        context.log({id: data});
                         context.res = { body: data };
                     }).catch(function (error) {
                         console.log("Error (update): ", error);
-                        context.log(error);
+                        context.log("Error (update): ", error);
                     }).finally(function () {
                         db.close();
-                        context.close();
+                        context.done();
                     });
                     break;
                 default:
                     context.log("Operation not supported: ", operation);
                     db.close();
-                    context.close();
+                    context.done();
             }
 
         });
